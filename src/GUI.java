@@ -1,4 +1,3 @@
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
@@ -6,6 +5,7 @@ import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
+ * Version 1.4.2
  */
 
 public class GUI extends javax.swing.JFrame {
@@ -23,12 +23,12 @@ public class GUI extends javax.swing.JFrame {
 
     public GUI() {
         initComponents();
-        image = new ImageIcon("pigeon.png");
+        image = new ImageIcon("icon.png");
         this.setIconImage(image.getImage());
         c = new Controller(this, txt_output, user_list, ip_list);
         txt_group.setText(group);
         txt_port.setText(port+"");        
-        this.setTitle("NetChat 1.41");
+        this.setTitle("NetChat 1.4.2");
     }
 
     @SuppressWarnings("unchecked")
