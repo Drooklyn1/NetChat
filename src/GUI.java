@@ -28,7 +28,7 @@ public class GUI extends javax.swing.JFrame {
         c = new Controller(this, txt_output, user_list, ip_list);
         txt_group.setText(group);
         txt_port.setText(port+"");        
-        this.setTitle("NetChat 1.4");
+        this.setTitle("NetChat 1.41");
     }
 
     @SuppressWarnings("unchecked")
@@ -310,6 +310,7 @@ private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUI().setVisible(true);
             }
