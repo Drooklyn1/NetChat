@@ -1,4 +1,3 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import javax.swing.Timer;
 
 /**
  * @author Felix Dreiling
+ * Version 1.4.2
  */
 
 public class Controller implements Runnable {
