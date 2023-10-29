@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
- * Version 1.4.2
+ * Version 1.4.2 Test
  */
 
 public class GUI extends javax.swing.JFrame {
