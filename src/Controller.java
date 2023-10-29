@@ -20,7 +20,7 @@ import javax.swing.Timer;
 
 /**
  * @author Felix Dreiling
- * Version 1.4.2 Test
+ * Version 1.4.2
  */
 
 public class Controller implements Runnable {
