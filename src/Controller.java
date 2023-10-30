@@ -8,8 +8,6 @@ import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -19,7 +17,7 @@ import javax.swing.Timer;
 
 /**
  * @author Felix Dreiling
- * Version 1.5
+ * NetChat v1.5
  */
 
 public class Controller implements Runnable, IController {

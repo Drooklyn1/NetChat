@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package Interfaces;
 
 import javax.swing.DefaultListModel;
 
 /**
  * @author Felix Dreiling
- * Version 1.5
+ * NetChat v1.5
  */
 
 public interface IController {
