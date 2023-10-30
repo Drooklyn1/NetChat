@@ -1,34 +1,39 @@
+import Interfaces.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
- * Version 1.4.2
+ * Version 1.5
  */
 
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame implements IUpdateRequester {
 
-    private Controller c;
-    private String group = "224.0.1.113";
-    int port = 5053;
-    byte buf[] = new byte[1024];
-    private int ref_time = 1000;
-    private int error = 10;
+    private IController c;
+    private int error;
     private SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-    private DefaultListModel user_model;
-    private DefaultListModel ip_model;
     private ImageIcon image;
 
     public GUI() {
         initComponents();
+        
+        c = new Controller(this);
+        
         image = new ImageIcon("icon.png");
         this.setIconImage(image.getImage());
-        c = new Controller(this, txt_output, user_list, ip_list);
-        txt_group.setText(group);
-        txt_port.setText(port+"");        
-        this.setTitle("NetChat 1.4.2");
+        this.setTitle("NetChat 1.5");
+        
+        txt_group.setText(c.GetGroup());
+        txt_port.setText(c.GetPort());
+        
+        user_list.setModel(c.GetUserList());
+        ip_list.setModel(c.GetIPList());
+    }
+    
+    public void Update(String s) {
+        txt_output.append(time.format(new Date()) + " - " + s);
+        this.toFront();
     }
 
     @SuppressWarnings("unchecked")
@@ -239,70 +244,71 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-    if (c.isStatus() == true) {
-        buf = txt_input.getText().getBytes();   
-        c.send(buf);
-        c.refresh();
+    if (c.IsConnected() == true) {
+        c.Send(txt_input.getText());
+        c.Refresh();
     }
 }//GEN-LAST:event_btn_sendActionPerformed
 
 private void btn_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connectActionPerformed
-    if(c.isStatus() == false) {
-        group = txt_group.getText();
-        port = Integer.parseInt(txt_port.getText());
-        error = c.connect(group, port);
-        if (error == 1) txt_output.append(time.format(new Date())+" - Error "+error+"Unbekannter Host \n");
-        else if (error == 2) txt_output.append(time.format(new Date())+" - Error "+error+" : Falscher Port \n");
-        else if (error == 3) txt_output.append(time.format(new Date())+" - Error "+error+" : Keine Verbindung oder falsche Multicast-IP \n");
-        else {
-            lbl_group.setText("Group : " + group);
-            lbl_port.setText("Port : " + port);
-            btn_connect.setText("Disconnect");
-            c.send(("*** Connected ***").getBytes());
-            c.refresh();
-            //txt_output.append(time.format(new Date())+" - Connected \n");
+    if(c.IsConnected() == false)
+    {
+        error = c.SetConnection(txt_group.getText(), txt_port.getText());
+        
+        if (error == 1) txt_output.append(time.format(new Date())+" - Error "+error+" : Falsches Port Format \n");
+        else if (error == 2) txt_output.append(time.format(new Date())+" - Error "+error+" : Falsches Group Format \n");
+        else
+        {
+            error = c.Connect();
+        
+            if (error == 3) txt_output.append(time.format(new Date())+" - Error "+error+" : Multicast-Socket konnte nicht auf dem Port geöffnet werden \n");
+            else if (error == 4) txt_output.append(time.format(new Date())+" - Error "+error+" : Keine Verbindung oder falsche Multicast-IP \n");
+            else
+            {
+                lbl_group.setText("Group : " + c.GetGroup());
+                lbl_port.setText("Port : " + c.GetPort());
+                btn_connect.setText("Disconnect");
+                c.Send("*** Connected ***");
+                c.Refresh();
+            }
         }
     }
-    else if (c.isStatus() == true) {
+    else
+    {
         lbl_group.setText("Group : --- ");
         lbl_port.setText("Port : --- ");
         btn_connect.setText("Connect");
-        c.send(("*** Disconnected ***").getBytes());
-        c.refresh();
-        c.disconnect();
-        //txt_output.append(time.format(new Date())+" - Disconnected \n");
-        user_model = (DefaultListModel) user_list.getModel();
-        user_model.removeAllElements();
+        
+        c.Send("*** Disconnected ***");
+        c.Refresh();
+        c.Disconnect();
     }    
 }//GEN-LAST:event_btn_connectActionPerformed
 
 private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
-    if (c.isStatus() == true) {
-        c.send(("*** Disconnected ***").getBytes());
-        c.disconnect();
+    if (c.IsConnected() == true)
+    {
+        c.Send("*** Disconnected ***");
+        c.Disconnect();
     }
     System.exit(0);    
 }//GEN-LAST:event_btn_exitActionPerformed
 
 private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
-    c.refresh();
+    c.Refresh();
 }//GEN-LAST:event_btn_refreshActionPerformed
 
 private void sld_timeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sld_timeStateChanged
-    ref_time = sld_time.getValue()*100;
-    lbl_time.setText("Seconds : "+(double)ref_time/1000);
-    c.timer(ref_time);
+    lbl_time.setText( "Seconds : " + (double)sld_time.getValue()/10 );
+    c.SetTimer( sld_time.getValue()*100 );
 }//GEN-LAST:event_sld_timeStateChanged
 
 private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
-    //txt_output.removeAll();
     txt_output.setText("");
 }//GEN-LAST:event_btn_clearActionPerformed
 
     private void btn_scanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_scanActionPerformed
-        ip_model = (DefaultListModel) ip_list.getModel();
-        ip_model.removeAllElements();
-        c.scan();
+        c.Scan();
     }//GEN-LAST:event_btn_scanActionPerformed
 
     /**
