@@ -26,7 +26,6 @@ public class GUI extends javax.swing.JFrame implements IUpdateRequester {
         
         txt_group.setText(c.GetGroup());
         txt_port.setText(c.GetPort());
-        
         user_list.setModel(c.GetUserList());
         ip_list.setModel(c.GetIPList());
     }

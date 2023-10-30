@@ -48,7 +48,7 @@ public class Controller implements Runnable, IController {
         user_model = new DefaultListModel();
         ip_model = new DefaultListModel();
         listener = new RefreshListener();
-        refreshTimer = new Timer(refreshTime,listener);
+        refreshTimer = new Timer(refreshTime, listener);
         
         port = 5053;
         try {
@@ -145,21 +145,17 @@ public class Controller implements Runnable, IController {
         }
     }
     
+    public void SetTimer(int rt) {
+        refreshTime = rt;
+        refreshTimer.setDelay(refreshTime);
+    }
+    
     private class RefreshListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Refresh();
         }
     }
-    
-    public void SetTimer(int rt) {
-        refreshTime = rt;
-        refreshTimer.setDelay(refreshTime);
-    }
-
-    public boolean IsConnected() {
-        return connected;
-    }
-    
+        
     public void Scan() {
         ip_model.removeAllElements();
         
@@ -208,6 +204,10 @@ public class Controller implements Runnable, IController {
         }
         
         gui.Update("Scan finished\n");
+    }
+    
+    public boolean IsConnected() {
+        return connected;
     }
     
     public String GetGroup()
