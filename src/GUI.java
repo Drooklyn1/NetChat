@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
- * NetChat v1.5 Setup
+ * NetChat v1.5
  */
 
 public class GUI extends javax.swing.JFrame implements IUpdateRequester {
