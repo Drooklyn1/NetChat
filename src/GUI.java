@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
- * NetChat v1.5
+ * NetChat v1.51
  */
 
 public class GUI extends javax.swing.JFrame implements IUpdateRequester {
@@ -22,7 +22,7 @@ public class GUI extends javax.swing.JFrame implements IUpdateRequester {
         
         image = new ImageIcon("icon.png");
         this.setIconImage(image.getImage());
-        this.setTitle("NetChat 1.5");
+        this.setTitle("NetChat 1.51");
         
         txt_group.setText(c.GetGroup());
         txt_port.setText(c.GetPort());
