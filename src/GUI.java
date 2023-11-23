@@ -1,11 +1,12 @@
 import Interfaces.*;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
  * @author Felix Dreiling
- * NetChat v1.51
+ * NetChat v1.52
  */
 
 public class GUI extends javax.swing.JFrame implements IUpdateRequester {
@@ -14,15 +15,17 @@ public class GUI extends javax.swing.JFrame implements IUpdateRequester {
     private int error;
     private SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
     private ImageIcon image;
+    private URL iconURL;
 
     public GUI() {
         initComponents();
         
         c = new Controller(this);
         
-        image = new ImageIcon("icon.png");
+        iconURL = getClass().getResource("icon.png");
+        image = new ImageIcon(iconURL);
         this.setIconImage(image.getImage());
-        this.setTitle("NetChat 1.51");
+        this.setTitle("NetChat 1.52");
         
         txt_group.setText(c.GetGroup());
         txt_port.setText(c.GetPort());
