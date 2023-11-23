@@ -17,7 +17,7 @@ import javax.swing.Timer;
 
 /**
  * @author Felix Dreiling
- * NetChat v1.51
+ * NetChat v1.52
  */
 
 public class Controller implements Runnable, IController {
